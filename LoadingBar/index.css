@@ -1,0 +1,16 @@
+.loading-bar {
+    position: relative;
+  }
+  
+  .background-rect {
+    position: absolute;
+    width: 400px;
+    height: 50px;
+    background: lightCoral;
+  }
+  
+  .foreground-rect {
+    position: absolute;
+    height: 50px;
+    background: lightBlue;
+  }
