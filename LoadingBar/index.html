@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Loading Bar Example</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <!-- React DOM - adds DOM-specific methods -->
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- Babel - a JavaScript compiler that lets us use ES6+ in old browsers -->
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
   <!-- This is a example project of Loading Bar Animation -->
@@ -47,5 +53,6 @@ console.error = (function(old) {
 })(console.error);
 </script>
 
+<script type="text/babel" src="index.js"></script>
 </body>
 </html>

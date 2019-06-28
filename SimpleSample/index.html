@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- auto generated -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Hello React!</title>
+    <!-- React - the React top level API -->
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <!-- React DOM - adds DOM-specific methods -->
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- Babel - a JavaScript compiler that lets us use ES6+ in old browsers -->
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <!-- type="text/babel" is mandatory for using Babel. -->
+    <script type="text/babel">
+        // Our sample App class
+        class SampleApp extends React.Component {
+
+            // the only required method in a class component, 
+            // which is used to render DOM nodes.
+            render(){
+                return (
+                    // this is JSX, not a string
+                    <h1>Hello World!</h1>
+                );
+            }
+        }
+
+        ReactDOM.render(<SampleApp />, document.getElementById('root'));
+
+    </script>
+</body>
+</html>
