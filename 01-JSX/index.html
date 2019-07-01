@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Conceptual Tutorail 01, JSX</title>
+
+        <!-- React - the React top level API -->
+        <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <!-- React DOM - adds DOM-specific methods -->
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <!-- Babel - a JavaScript compiler that lets us use ES6+ in old browsers -->
+        <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+
+</head>
+<body>
+    <h1>Conceptual Tutorial 01: JSX</h1>
+    <p>1) Embeding Expression in JSX, "Bob Smith" is assigned to variable.</p>
+    <div id="demo1">This is root dive</div>
+
+    <p>2) you can put any expression within the { }, the below is a function is directly rendered.</p>
+    <div id="demo2"></div>
+    <p> or function is embeded in a JSX, and render JSX</p>
+    <button type="button" onclick="showName()">Show Name!</button>
+    <div id="demo3"></div>
+
+    <p>3) JSX expressions become regular JavaScript function calls and evaluate to JavaScript objects.</p>
+    <p>JSX cane be assigned to var, pass as argument and return from functions</p>
+    <form id=inputName onsubmit="return displayInput()" action="" method="GET">
+        <input type="text" name="data" value="input data here">
+        <input type="submit" value="Submit">
+    </form>
+    <div id="demo4">demo4 is here</div>
+
+    <p>4) Specifying Attributes with JSX</p>
+    <p>use quotes to specify string literals as attributes: const element = &ltdiv tabIndex="0"&gt&lt/div&gt;</p>
+    <p>use curly braces to embed a JavaScript expression in an attribute: const element = &ltimg src={user.avatarUrl}&gt&lt/img&gt;</p>
+    <pre>Don’t put quotes around curly braces when embedding a JavaScript expression in an attribute. 
+        You should either use quotes (for string values) or curly braces (for expressions), 
+        but not both in the same attribute.</pre>
+
+</body>
+<script type="text/babel">
+const name="Bob Smith";
+const element1=<h3>Hello, {name}</h3>;
+
+ReactDOM.render(
+    element1,
+    document.getElementById("demo1")
+);
+
+function showFullName(user) {
+    return user.firstName + " " + user.lastName;
+}
+
+var user01 = {
+    firstName: "Bob",
+    lastName: "Smith",
+}
+
+ReactDOM.render(
+    showFullName(user01),
+    document.getElementById("demo2")
+);
+
+var element2 = (<h3>{showFullName(user01)}</h3>);
+
+function showName(){
+    ReactDOM.render(
+        element2,
+        document.getElementById("demo3")
+    );
+};
+
+function displayInput(){
+    ReactDOM.render(
+    document.forms["inputName"].data.value,
+    document.getElementById("demo4")
+    );
+}
+</script>
+</html>
