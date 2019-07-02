@@ -40,6 +40,14 @@
         You should either use quotes (for string values) or curly braces (for expressions), 
         but not both in the same attribute.</pre>
 
+    <p>5) Applications built with just React usually have a single root DOM node. </p>
+    <p>React elements are immutable. only way to update the UI is to create a new element,
+         and pass it to ReactDOM.render().</p>
+
+    <div id="demo5">demo5 is here</div>        
+    
+
+
 </body>
 <script type="text/babel">
 const name="Bob Smith";
@@ -79,5 +87,18 @@ function displayInput(){
     document.getElementById("demo4")
     );
 }
+
+function tick(){
+    var demo5Element = (
+        <div>
+        <h2>Hello, World</h2>
+        <h4> it is { new Date().toString()}. </h4>
+        </div>
+    );
+
+    ReactDOM.render(demo5Element, document.getElementById("demo5"));
+}
+
+setInterval(tick, 1000);
 </script>
 </html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Component and Props</title>
+
+        <!-- React - the React top level API -->
+        <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <!-- React DOM - adds DOM-specific methods -->
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <!-- Babel - a JavaScript compiler that lets us use ES6+ in old browsers -->
+        <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+
+</head>
+<body>
+<h1>Component and Props</h1>
+<p>1) Render a Component. Using ES6 class</p>
+<div id="demo1">demo1 is here</div>
+
+<p>2) Render a Component, using JS function</p>
+<div id="demo2">demo2 is here</div>
+
+<p>Note: Always start component names with a capital letter.</p>
+
+<p>3) Component can refer to other component in their output</p>
+<div id="demo3">demo3 is here</div>
+
+</body>
+<script type="text/babel">
+
+class Welcome extends React.Component {
+    render (){
+        return <h3>Hello, {this.props.name}.</h3>;
+    }
+}
+
+ReactDOM.render(
+    <Welcome name="Kate" />,
+    document.getElementById("demo1")
+);
+
+function Welcome1(props){
+        return <h3>Hello, {props.name}.</h3>;
+};
+
+ReactDOM.render(
+    <Welcome1 name="Leah" />,
+    document.getElementById("demo2")
+);
+
+class App extends React.Component {
+    render(){
+        return (
+            <div>
+                <Welcome name="Greg" />
+                <Welcome name="Fisher" />
+                <Welcome name="Eddy" />
+            </div>
+        );
+    }
+}
+
+ReactDOM.render(
+    <App />,
+    document.getElementById("demo3")
+);
+
+</script>
+</html>
