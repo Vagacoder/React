@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>State and Lifecycle</title>
+
+            <!-- React - the React top level API -->
+            <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+            <!-- React DOM - adds DOM-specific methods -->
+            <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+            <!-- Babel - a JavaScript compiler that lets us use ES6+ in old browsers -->
+            <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+
+</head>
+<body>
+<h1>State and Lifecycle</h1>
+    <p>1) Example of Clock, using props </p>
+    <div id="demo1">demo1 is here</div>
+
+    <p>2) Example of Clock, using state </p>
+    <div id="demo2">demo2 is here</div>
+</body>
+<script type="text/babel">
+
+// using props ====================================
+class Clock extends React.Component {
+    render(){
+        return (
+            <div>
+                <h3>Hello, World!</h3>
+                <h4>It is {this.props.date.toString()}.</h4>
+            </div>     
+        );
+    }
+}
+
+function tick() {
+    ReactDOM.render(
+        <Clock date={new Date()} />,
+        document.getElementById("demo1")
+    );
+}
+
+setInterval(tick, 1000);
+// ===============================================
+
+// using state ===================================
+class Clock1 extends React.Component {
+
+    constructor(props){
+        super(props);
+        //only in constructor, you can assign state
+        this.state = {date: new Date()};
+    }
+
+    componentDidMount(){
+        this.timerID = setInterval(
+            () => this.tick(), 1000
+        );
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.timerID);
+    }
+
+    tick(){
+        this.setState({
+            date: new Date()
+        });
+    }
+
+    render(){
+        return (
+        <div>
+            <h3>Hello, World!</h3>
+            <h4>It is {this.state.date.toString()}.</h4>
+        </div>)
+    };
+}
+
+
+ReactDOM.render(
+    <Clock1 />,
+    document.getElementById("demo2")
+);
+
+// ==============================================
+</script>
+</html>
