@@ -17,15 +17,23 @@
 </head>
 <body>
 <h1>Handling Events</h1>
-
+<p>1) in HTML</p>
+<button onclick="alert('Alert HTML!')">Alert HTML!</button>
+<p>in JSX</p>
 <div id="demo1">demo1 is here</div>
 
+<a href="#" onclick="console.log('The link is clicked!'); return false">Clicl me!</a>
 <div id="demo2">demo2 is here</div>
 
 <div id="demo3">demo3 is here</div>
 
 </body>
 <script type="text/babel">
+
+ReactDOM.render(
+        (<button onClick={alert("Alert JSX!")}>Alert JSX!</button>),
+        document.getElementById("demo1")
+    )
 
 
 </script>
