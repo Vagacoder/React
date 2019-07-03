@@ -17,23 +17,81 @@
 </head>
 <body>
 <h1>Handling Events</h1>
-<p>1) in HTML</p>
+<p>1) add event handler in HTML, through a string of function name</p>
 <button onclick="alert('Alert HTML!')">Alert HTML!</button>
-<p>in JSX</p>
+<p>add event handler in JSX, through passing a functin</p>
 <div id="demo1">demo1 is here</div>
 
+<p>2)  "return false" works in normal JS to prevent default behavior,</p>
+    <p>while it does not work in React.</p>
 <a href="#" onclick="console.log('The link is clicked!'); return false">Clicl me!</a>
+<p>a better JS example on "return false"</p>
+<a href="http://www.google.co.uk/" onclick="return (confirm('Follow this link?'))">Google</a>
+
+<p>in JSX, you must call preventDefault explicitly.</p>
 <div id="demo2">demo2 is here</div>
 
+<p>3) Toggle Component renders a button leting user change "ON" and "OFF" states</p>
 <div id="demo3">demo3 is here</div>
 
 </body>
 <script type="text/babel">
-
+// 1) add event handler in JSX, through passing a functin
 ReactDOM.render(
-        (<button onClick={alert("Alert JSX!")}>Alert JSX!</button>),
+        (<button onClick={() => alert("Alert JSX!")}>Alert JSX!</button>),
         document.getElementById("demo1")
     )
+
+// 2) in JSX, you must call preventDefault explicitly,
+// to prevent default behavior
+function ActionLink() {
+  function handleClick(e) {
+    e.preventDefault();
+    console.log('The link was clicked.');
+  }
+
+  return (
+    <a href="#" onClick={handleClick}>
+      Click me
+    </a>
+  );
+}
+
+ReactDOM.render(
+    <ActionLink />,
+    document.getElementById("demo2")
+);
+
+// 3)Toggle Component renders a button leting user change "ON" and "OFF" states
+
+class Toggle extends React.Component {
+    constructor (props){
+        super(props);
+        this.state = {isToggleOn: true};
+
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(){
+        this.setState(
+            state => ({isToggleOn: !state.isToggleOn})
+        );
+    }
+
+    render(){
+        return (
+            <button onClick={this.handleClick}>
+                {this.state.isToggleOn ? "ON" : "OFF"}
+            </button>
+        );
+    }
+}
+
+ReactDOM.render(
+    <Toggle />,
+    document.getElementById("demo3")
+);
+
 
 
 </script>
