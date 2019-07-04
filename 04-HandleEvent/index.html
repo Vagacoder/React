@@ -24,9 +24,9 @@
 
 <p>2)  "return false" works in normal JS to prevent default behavior,</p>
     <p>while it does not work in React.</p>
-<a href="#" onclick="console.log('The link is clicked!'); return false">Clicl me!</a>
+<a href="http://www.google.com" onclick="console.log('The link is clicked!'); return false">Click me!</a>
 <p>a better JS example on "return false"</p>
-<a href="http://www.google.co.uk/" onclick="return (confirm('Follow this link?'))">Google</a>
+<a href="http://www.google.com" onclick="return (confirm('Follow this link?'))">Google</a>
 
 <p>in JSX, you must call preventDefault explicitly.</p>
 <div id="demo2">demo2 is here</div>
@@ -45,16 +45,16 @@ ReactDOM.render(
 // 2) in JSX, you must call preventDefault explicitly,
 // to prevent default behavior
 function ActionLink() {
-  function handleClick(e) {
-    e.preventDefault();
-    console.log('The link was clicked.');
-  }
+    function handleClick(e) {
+        e.preventDefault();
+        console.log('The link was clicked.');
+    }
 
-  return (
-    <a href="#" onClick={handleClick}>
-      Click me
-    </a>
-  );
+    return (
+        <a href="http://www.google.com" onClick={handleClick}>
+        Click me
+        </a>
+    );
 }
 
 ReactDOM.render(
@@ -70,6 +70,7 @@ class Toggle extends React.Component {
         this.state = {isToggleOn: true};
 
         this.handleClick = this.handleClick.bind(this);
+
     }
 
     handleClick(){
