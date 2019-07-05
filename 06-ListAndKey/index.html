@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>List and Key</title>
+
+    <!-- React - the React top level API -->
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <!-- React DOM - adds DOM-specific methods -->
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- Babel - a JavaScript compiler that lets us use ES6+ in old browsers -->
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+</head>
+<body>
+<h1>Lists and Keys</h1>
+<p>1) Usually you would render lists of components inside another component.</p>
+<div id="demo1">demo1 is here</div>
+
+<p>2) another example of list of components</p>
+<div id="demo2">demo2 is here</div>
+
+<p>3) Keys used within arrays should be unique among their siblings.</p>
+<p>However they don’t need to be globally unique.</p>
+<div id="demo3">demo3 is here</div>
+
+
+</body>
+<script type="text/babel">
+// 1) =====================================================
+const numbers1 = ["a", "b", "c", "d"];
+var listItems = numbers1.map((value, index) => (<li key={index}>{value}</li>) );
+
+ReactDOM.render(
+    <ul>{listItems}</ul>,
+    document.getElementById("demo1")
+);
+//=========================================================
+
+// 2) =====================================================
+function NumberList(props){
+    var numbers = props.numbers;
+    var listItems = numbers.map((value, index) => (<li key={index}>{value}</li>));
+
+    return (
+        <ul>{listItems}</ul>
+    );
+}
+
+
+ReactDOM.render(
+    <NumberList numbers={numbers1} />,
+    document.getElementById("demo2")
+);
+// ========================================================
+
+// 3)======================================================
+function Blog(props){
+    const sidebar = (
+        <ul>
+            {props.posts.map((post) =>(
+                <li key={post.id}>
+                    {post.title}
+                </li>
+                )
+            )}
+        </ul>
+    );
+
+    const content = props.posts.map((post) =>(
+        <div key={post.id}>
+            <h3>{post.title}</h3>
+            <p>{post.content}</p>
+        </div>
+    ));
+
+    return (
+        <div>
+            {sidebar}
+            <hr />
+            {content}
+        </div>
+    );
+}
+
+const posts = [
+    {id: 1, title: 'Hello World', content: 'Welcome to learning React!'},
+    {id: 2, title: 'Installation', content: 'You can install React from npm.'}
+];
+
+ReactDOM.render(
+    <Blog posts = {posts} />,
+    document.getElementById("demo3")
+);
+
+// ========================================================
+</script>
+</html>
