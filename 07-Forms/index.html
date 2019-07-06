@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Forms</title>
+
+    <!-- React - the React top level API -->
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <!-- React DOM - adds DOM-specific methods -->
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- Babel - a JavaScript compiler that lets us use ES6+ in old browsers -->
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+</head>
+<body>
+<h1>Forms</h1>
+<p>1) Form with control component</p>
+<div id="demo1">demo1 is here</div>
+
+<p>2) Textarea tag with control component</p>
+<div id="demo2">demo2 is here</div>
+</body>
+<script type="text/babel">
+// 1 =======================================================
+class NameForm extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {value:""};
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleChange(event){
+        this.setState({value: event.target.value.toUpperCase()});
+    }
+
+    handleSubmit(event){
+        alert("A name is submitted: " + this.state.value);
+        event.preventDefault();
+    }
+
+    render(){
+        return (
+            <form onSubmit={this.handleSubmit}>
+                <label>
+                    Name:
+                    <input type="text" value={this.state.value} onChange={this.handleChange} />
+                </label>
+                <input type="submit" value="Submit" />
+            </form>
+        )
+    }
+}
+
+ReactDOM.render(
+    <NameForm />,
+    document.getElementById("demo1")
+);
+// =========================================================
+
+// 2 =======================================================
+class EssayForm extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {value: "Please write an essay about your favor DOM element."};
+
+        this.handleChange=this.handleChange.bind(this);
+        this.handleSubmit=this.handleSubmit.bind(this);
+    }
+
+    handleChange(event){
+        this.setState({value: event.target.value});
+    }
+
+    handleSubmit(event){
+        alert("An essay is submit: " + this.state.value);
+        event.preventDefault();
+    }
+
+    render() {
+        return (
+            <form onSubmit={this.handleSubmit}>
+                <label>
+                    Essay:<br/>
+                    <textarea value={this.state.value} onChange={this.handleChange} />
+                </label>
+                <input type="submit" value="Submit" />
+            </form>
+        )
+    }
+}
+
+ReactDOM.render(
+    <EssayForm />,
+    document.getElementById("demo2")
+);
+// =========================================================
+</script>
+</html>
