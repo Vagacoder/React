@@ -20,6 +20,14 @@
 
 <p>2) Textarea tag with control component</p>
 <div id="demo2">demo2 is here</div>
+
+<p>3) select Tag</p>
+<div id="demo3">demo3 is here</div>
+
+<p>4) handel multiple inputs</p>
+<div id="demo4">demo4 is here</div>
+
+
 </body>
 <script type="text/babel">
 // 1 =======================================================
@@ -96,6 +104,93 @@ ReactDOM.render(
     <EssayForm />,
     document.getElementById("demo2")
 );
+// =========================================================
+
+// 3 =======================================================
+class FlavorForm extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {value: "coconut"};
+
+        this.handleChange=this.handleChange.bind(this);
+        this.handleSubmit= this.handleSubmit.bind(this);
+    }
+
+    handleChange(event){
+        this.setState({value: event.target.value});
+    }
+
+    handleSubmit(event){
+        alert("Your favorite flavor is: " + this.state.value);
+        event.preventDefault;
+    }
+
+    render(){
+        return(
+            <form onSubmit={this.handleSubmit}>
+                <label>
+                    Pick your favorite flavor:<br/>
+                    <select value={this.state.value} onChange={this.handleChange}>
+                        <option value="grapefruit">Grapefruit</option>
+                        <option value="line">Lime</option>
+                        <option value="coconu">Coconut</option>
+                        <option value="mango">Mango</option>
+                    </select>
+                </label>
+                <input type="submit" value="Submit" />
+            </form>
+        );
+    }
+}
+
+ReactDOM.render(
+    <FlavorForm />,
+    document.getElementById("demo3")
+);
+
+// =========================================================
+
+// 4 =======================================================
+class Reservation extends React.Component {
+    constructor (props){
+        super(props);
+        this.state = {isGoing: true, numberOfGuests:2};
+
+        this.handleInputChange = this.handleInputChange.bind(this);
+    }
+
+    handleInputChange(event){
+        const name = event.name;
+        const value = event.target.type ==="checkbox" ? event.target.checked : event.target.value;
+        
+        this.setState({[name]:value});
+    }
+
+    render(){
+        return (
+            <form>
+                <label>
+                    Is going:
+                    <input name="isGoing" type="checkbox" checked={this.state.isGoing} 
+                    onChange={this.handleInputChange} />
+                </label>
+                <br />
+                <label>
+                    Number of Guests:
+                    <input name="numberOfGuests" type="number" value={this.state.numberOfGuests}
+                    onChange={this.handleInputChange} />
+                </label>
+            </form>
+        )
+    }
+}
+
+ReactDOM.render(
+    <Reservation />,
+    document.getElementById("demo4")
+);
+
+
 // =========================================================
 </script>
 </html>
