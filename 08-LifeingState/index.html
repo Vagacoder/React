@@ -22,6 +22,10 @@
 <p>2) Add a second input</p>
 <div id="demo2">demo2 is here</div>
 
+
+<p>3) add 2 converting functions</p>
+<div id="demo3">demo3 is here</div>
+
 </body>
 
 <script type="text/babel">
@@ -111,5 +115,88 @@ ReactDOM.render(
 )
 // ============================================================
 
+// 3 ==========================================================
+function toCelsius(fahrenheit){
+    return (fahrenheit -32)*5/9;
+}
+
+function toFahrenheit(celsius){
+    return (celsius *9/5) + 32;
+}
+
+function tryConvert(temp, convert){
+    const input = parseFloat(temp);
+    if(Number.isNaN(input)){
+        return "";
+    }
+    const output = convert(input);
+    const rounded = Math.round(output * 1000)/1000;
+    return rounded.toString();
+}
+
+class TemperatureInput1 extends React.Component{
+    constructor(props){
+        super(props);
+        this.handleChange=this.handleChange.bind(this);
+    }
+
+    handleChange(event){
+        this.props.onTempChange(event.target.value);
+    }
+
+    render(){
+        const temperature = this.props.temperature;
+        const scale = this.props.scale;
+        return (
+            <fieldset>
+                <legend>Enter temperature in {scaleNames[scale]}:</legend>
+                <input value={temperature}
+                    onChange={this.handleChange} />
+            </fieldset>
+        );
+    }
+
+}
+
+class Calculator2 extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {temperature:"", scale:"c"};
+        this.handleCelsiusChange = this.handleCelsiusChange.bind(this);
+        this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);
+    }
+
+    handleCelsiusChange(temp){
+        this.setState({scale:"c", temperature:temp});
+    }
+
+    handleFahrenheitChange(temp){
+        this.setState({scale:"f", temperature:temp});
+    }
+
+    render(){
+        const scale = this.state.scale;
+        const temperature = this.state.temperature;
+        const celsius = scale === "f" ? tryConvert(temperature, toCelsius) : temperature;
+        const fahrenheit = scale === "c"? tryConvert(temperature, toFahrenheit) : temperature;
+
+        return (
+            <div>
+                <TemperatureInput1 scale = "c" temperature={celsius}
+                onTempChange= {this.handleCelsiusChange} />
+                <TemperatureInput1 scale = "f" temperature={fahrenheit} 
+                onTempChange = {this.handleFahrenheitChange} />
+
+                <BoilingVerdict celsius={parseFloat(celsius)} />
+            </div>
+        )
+    }
+}
+
+ReactDOM.render (
+    <Calculator2 />,
+    document.getElementById("demo3")
+);
+//=============================================================
 </script>
 </html>
