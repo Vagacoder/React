@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Composition vs Inheritance</title>
+
+    <!-- React - the React top level API -->
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <!-- React DOM - adds DOM-specific methods -->
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- Babel - a JavaScript compiler that lets us use ES6+ in old browsers -->
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+
+    <style>
+    .FancyBorder-blue{
+        background-color: skyblue;
+    }
+    </style>
+</head>
+<body>
+<h1>Composition vs. Inheritance</h1>    
+<h3>1) Containment</h3>
+<p>1.1) Children element</p>
+<div id="demo1">demo1 is here</div>
+
+<p>1.2) Multilple children elements</p>
+<div id="demo2">demo2 is here</div>
+
+<h3>2) Specializaiton</h3>
+<p>2.1) </p>
+</body>
+<script type="text/babel">
+
+// 1 starting ===================================
+function FancyBorder(props) {
+  return (
+    <div className={'FancyBorder FancyBorder-' + props.color}>
+        <p><b>Fancy Border children are below.</b></p>
+       {props.children} 
+    </div>
+  );
+}
+
+function WelcomeDialog() {
+  return (
+    <FancyBorder color="blue">
+      <h1 className="Dialog-title">
+        Welcome
+      </h1>
+      <p className="Dialog-message">
+        Thank you for visiting our spacecraft!
+      </p>
+    </FancyBorder>
+  );
+}
+
+ReactDOM.render(
+  <WelcomeDialog />,
+  document.getElementById("demo1")
+);
+// 1 ending ====================================
+
+// 2 starting ==================================
+function SplitPane(props){
+    var style0 = {
+        float: "left",
+        width: "50%",
+        background:"hotpink",
+    };
+
+    var style1 = {
+        float: "left",
+        width: "50%",
+        background:"mediumseagreen",
+    };
+    return(
+        <div className="SplitPane">
+            <div className="SplitPane-left" style={style0}>
+                {props.left}
+            </div>
+            <div className="SplitPane-right" style={style1}>
+                {props.right}
+            </div>
+        </div>
+    );
+}
+
+function Demo2(){
+    var style2 ={
+        display:'inline',
+    };
+    return (
+    <SplitPane 
+    left={<h2 style={style2}>left child is here</h2>} 
+    right={<h2 style={style2}>right child is here</h2>}
+        ></SplitPane>
+    );
+}
+
+ReactDOM.render(
+    <Demo2 />,
+    document.getElementById("demo2")
+);
+// 2 ending ====================================
+</script>
+</html>
