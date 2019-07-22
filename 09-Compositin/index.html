@@ -17,6 +17,14 @@
     .FancyBorder-blue{
         background-color: skyblue;
     }
+
+    .FancyBorder-yellow{
+        background-color:gold;
+    }
+
+    .FancyBorder-green{
+        background-color:palegreen;
+    }
     </style>
 </head>
 <body>
@@ -29,7 +37,13 @@
 <div id="demo2">demo2 is here</div>
 
 <h3>2) Specializaiton</h3>
-<p>2.1) </p>
+<p>2.1) WelcomeDialog2 is specilized from Dialog</p>
+<div id="demo3">demo3 is here</div>
+
+<p>2.2) another example</p>
+<div id="demo4">demo4 is here</div>
+
+
 </body>
 <script type="text/babel">
 
@@ -104,5 +118,84 @@ ReactDOM.render(
     document.getElementById("demo2")
 );
 // 2 ending ====================================
+
+// 3 starting ==================
+function Dialog(props){
+  return (
+    <FancyBorder color="yellow">
+      <h1 className="Dialog-title">
+        {props.title}
+      </h1>
+      <p className="Dialog-message">
+        {props.message}
+      </p>
+    </FancyBorder>
+  );
+}
+
+function WelcomeDialog2 (){
+  return(
+    <Dialog title="Welcome!" message="Hello world!">
+    </Dialog>
+  );
+}
+
+ReactDOM.render(
+  <WelcomeDialog2 />,
+  document.getElementById("demo3")
+);
+// 3 ending =====================
+
+// 4 starting ====================
+function Dialog2(props){
+  return (
+    <FancyBorder color="green">
+      <h1 className="Dialog-title">
+        {props.title}
+      </h1>
+      <p className="Dialog-message">
+        {props.message}
+      </p>
+        {props.children}
+    </FancyBorder>
+  );
+}
+
+
+class SignUpDialog extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSignUp = this.handleSignUp.bind(this);
+    this.state = {login: ''};
+  }
+
+  render() {
+    return (
+      <Dialog2 title="Mars Exploration Program"
+              message="How should we refer to you?">
+        <input value={this.state.login}
+               onChange={this.handleChange} />
+        <button onClick={this.handleSignUp}>
+          Sign Me Up!
+        </button>
+      </Dialog2>
+    );
+  }
+
+  handleChange(e) {
+    this.setState({login: e.target.value});
+  }
+
+  handleSignUp() {
+    alert(`Welcome aboard, ${this.state.login}!`);
+  }
+}
+
+ReactDOM.render(
+  <SignUpDialog />,
+  document.getElementById("demo4")
+);
+// 4 ending =====================
 </script>
 </html>
