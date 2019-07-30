@@ -7,31 +7,59 @@
     <title>Material UI</title>
 
     <!-- React - the React top level API -->
-    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react@latest/umd/react.development.js"></script>
     <!-- React DOM - adds DOM-specific methods -->
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/react-dom@latest/umd/react-dom.development.js"></script>
     <!-- Babel - a JavaScript compiler that lets us use ES6+ in old browsers -->
-    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+    <script src="https://unpkg.com/babel-standalone@latest/babel.js"></script>
+    
     <!-- Material UI -->
-    <script src="https://unpkg.com/@material-ui/core@latest/umd/material-ui.development.js"></script>
+    <script src="https://unpkg.com/@material-ui/core@latest/umd/material-ui.development.js" crossorigin="anonymous"></script>
+    <!-- Roboto Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <!-- Font Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
 </head>
+
 <body>
 <h1>Material UI</h1>
+<p id="demo">demo is here</p>
 <p id="demo1">demo1 is here</p>
-</body>
-<script type="text/babel">
-class App extends React.Component{
-    render(){
-        return (
-            <Button variant="contained" color="primary">Hello World!
-            </Button>
-        );
-    }
-}
 
-ReactDOM.render(
-    <App />,
-    document.getElementById("demo1")
-);
+
+</body>
+<script type="text/babel" >
+    const {
+        colors,
+        CssBaseline,
+        MuiThemeProvider,
+        Typography,
+        Container,
+        makeStyles,
+        createMuiTheme,
+        Box,
+        SvgIcon,
+        Link,
+        Button,
+    } = MaterialUI;
+
+    class App extends React.Component{
+        render(){
+            return (
+                <div>
+                    <Button variant="contained" color="primary">Hello World!
+                    </Button><br/><br/>
+                    <Link href="#">Link here</Link><br/><br/>
+                    
+                </div>
+            );
+        }
+    }
+    
+    ReactDOM.render(
+        <App />,
+        document.getElementById("demo1")
+    );
 </script>
 </html>
