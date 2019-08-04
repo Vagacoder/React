@@ -13,6 +13,9 @@
     <!-- Babel - a JavaScript compiler that lets us use ES6+ in old browsers -->
     <script src="https://unpkg.com/babel-standalone@latest/babel.js"></script>
 
+    <!-- Material UI -->
+    <script src="https://unpkg.com/@material-ui/core@latest/umd/material-ui.development.js" crossorigin="anonymous"></script>
+
     <style>
         body {
             padding: 5px;
@@ -22,11 +25,12 @@
 <body>
 <h1>Thinking in React</h1>
 <p>1) A Table of Products </p>
-<div id="demo1">
-demo1 us here</div>
+<div id="demo1">demo1 is here</div>
 
 </body>
 <script type="text/babel">
+const {CssBaseline} = MaterialUI;
+
 class ProductCategoryRow extends React.Component {
   render() {
     const category = this.props.category;
@@ -167,19 +171,22 @@ class FilterableProductTable extends React.Component {
 
   render() {
     return (
-      <div>
-        <SearchBar
-          filterText={this.state.filterText}
-          inStockOnly={this.state.inStockOnly}
-          onFilterTextChange={this.handleFilterTextChange}
-          onInStockChange={this.handleInStockChange}
-        />
-        <ProductTable
-          products={this.props.products}
-          filterText={this.state.filterText}
-          inStockOnly={this.state.inStockOnly}
-        />
-      </div>
+      <React.Fragment>
+        <CssBaseline />
+        <div>
+          <SearchBar
+            filterText={this.state.filterText}
+            inStockOnly={this.state.inStockOnly}
+            onFilterTextChange={this.handleFilterTextChange}
+            onInStockChange={this.handleInStockChange}
+          />
+          <ProductTable
+            products={this.props.products}
+            filterText={this.state.filterText}
+            inStockOnly={this.state.inStockOnly}
+          />
+        </div>
+      </React.Fragment>
     );
   }
 }
