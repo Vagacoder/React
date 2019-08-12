@@ -1,9 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
 
+  // useState hook
   const [count, setCount] = useState(0);
+
+  // useEffect hook
+  useEffect(()=>{
+    document.title = `You clciked ${count} times`;
+  }
+
+  )
 
   return (
     <div>
