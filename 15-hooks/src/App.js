@@ -10,7 +10,6 @@ function App() {
   useEffect(()=>{
     document.title = `You clciked ${count} times`;
   }
-
   )
 
   return (
