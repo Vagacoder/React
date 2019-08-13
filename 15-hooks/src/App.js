@@ -9,7 +9,7 @@ function App() {
   // useEffect hook
   useEffect(()=>{
     document.title = `You clciked ${count} times`;
-  }
+  }, [count]
   )
 
   return (

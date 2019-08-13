@@ -18,6 +18,7 @@ afterEach(() => {
 
 it('changes value when clicked', () => {
     const onChange=jest.fn();
+    
     act(() => {
         render(<Toggle onChange={onChange} />, container);
     });
