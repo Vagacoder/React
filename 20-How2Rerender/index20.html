@@ -41,7 +41,7 @@
         const handleClick = async (e) => {
             console.log(`before handle click #1: ${count.number}`);
 
-            // this block code will NOT re-render page ==============
+            // 1. This block code will NOT re-render page ==============
             /* because newCount is refered to the same object of 
             count, modifying newCount is modifying count.
             This is shown at console log "before handle click #2"
@@ -50,7 +50,7 @@
 
             // let newCount = count;
             // newCount.number = count.number + 1;
-            // console.log(`before handle click #2: ${count.number}`);
+            // console.log(`before set state #2: ${count.number}`);
             
             /* React Re-render checking ONLY happened at setState() */
 
@@ -58,15 +58,30 @@
 
             // =======================================================
            
-            // This block code WILL re-render page ===================
-            count.number += 1;
-            console.log(`before set state #2: ${count.number}`);
-            setCount({...count, ...count});
+            // 2. This block code WILL re-render page ================
+            // count.number += 1;
+            // console.log(`before set state #2: ${count.number}`);
+
+            /* React Re-render checking ONLY happened at setState() */
+
+            // setCount({...count, ...count});
             
+            // =======================================================
+
+            // 3. This block code WILL re-render page, cloning count obaject ======
+            let newCount = {};
+            Object.assign(newCount, count);
+            newCount.number = count.number + 1;
+            console.log(`before set state #2: ${count.number}`);
+
+             /* React Re-render checking ONLY happened at setState() */
+             
+             setCount(newCount); 
+
             // =======================================================
         }
 
-        console.log(`after handle click: ${count.number}`);
+        console.log(`after handle click #3: ${count.number}`);
 
         // render
         return (
