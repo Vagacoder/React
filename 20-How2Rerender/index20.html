@@ -69,16 +69,27 @@
             // =======================================================
 
             // 3. This block code WILL re-render page, cloning count obaject ======
-            let newCount = {};
-            Object.assign(newCount, count);
-            newCount.number = count.number + 1;
-            console.log(`before set state #2: ${count.number}`);
+            // let newCount = {};
+            // Object.assign(newCount, count);
+            // newCount.number = count.number + 1;
+            // console.log(`before set state #2: ${count.number}`);
 
              /* React Re-render checking ONLY happened at setState() */
              
-             setCount(newCount); 
+            //  setCount(newCount); 
 
             // =======================================================
+
+            // 4. This block code will NOT re-render page, ===========
+
+            setCount((count) => {
+                let newCount = count;
+                newCount.number++;
+                console.log(`before handle click #2: ${count.number}`);
+                return newCount;
+            });
+
+            // ============================================================
         }
 
         console.log(`after handle click #3: ${count.number}`);
