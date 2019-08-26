@@ -81,7 +81,8 @@
             // =======================================================
 
             // 4. This block code will NOT re-render page, ===========
-
+            // the count is passed-by-value, but count is a reference,
+            // so that object refered by count is passed-by-reference.
             setCount((count) => {
                 let newCount = count;
                 newCount.number++;
