@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container, Draggable } from 'react-smooth-dnd';
 import ClientViewArrangementCard from './ClientViewArrangementCard';
 
@@ -23,7 +23,7 @@ function App() {
     qty: 3,
     price: 500
   }, {
-    arangementId: 'jPeM4rbp2Kq3pI6EQuwE',
+    arrangementId: 'jPeM4rbp2Kq3pI6EQuwE',
     name: 'Guest Table Style',
     imgUrl: 'https://firebasestorage.googleapis.com/v0/b/bloomtrac.appspot.com/o/ArrangementPics%2Farr3.jpeg?alt=media&token=3f6677a8-2e2f-47af-818e-1cf3633c023f',
     description: 'Flower for guest table',
@@ -34,34 +34,55 @@ function App() {
   }
   ]
 
+  const [arrangementDataList, setArrangementDataList] = useState(dummy_arrangement_data_list);
+
+  const onArrangementCardDrop = (dropResult) => {
+    if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
+      console.log("drop catched");
+      
+      let newArrangementDataList = applyDrag(arrangementDataList, dropResult);
+      console.log(arrangementDataList);
+      console.log(newArrangementDataList);
+      setArrangementDataList(newArrangementDataList);
+    }
+  };
+
+  const applyDrag = (arr, dragResult) => {
+    const { removedIndex, addedIndex, payload } = dragResult;
+    if (removedIndex === null && addedIndex === null) return arr;
+    const result = arr.slice(0);
+    let itemToAdd = payload;
+  
+    if (removedIndex !== null) {
+      itemToAdd = result.splice(removedIndex, 1)[0];
+    }
+    if (addedIndex !== null) {
+      result.splice(addedIndex, 0, itemToAdd);
+    }
+    return result;
+  };
+
+  const getArrangementCardPayload = (index) => {
+    return arrangementDataList[index];
+  };
 
   return (
     <div className="App">
-      <Container onDrop={() => { alert('Dropped.') }}>
-        <Draggable key="1">
-          <ClientViewArrangementCard
-            arrangementData={dummy_arrangement_data_list[0]}
-            removeThisArrangement={() => { alert('removed.') }}
-            addNewArrangement={() => { alert('added.') }}
-          >
-          </ClientViewArrangementCard>
-        </Draggable>
-        <Draggable key="2">
-          <ClientViewArrangementCard
-            arrangementData={dummy_arrangement_data_list[1]}
-            removeThisArrangement={() => { alert('removed.') }}
-            addNewArrangement={() => { alert('added.') }}
-          >
-          </ClientViewArrangementCard>
-        </Draggable>
-        <Draggable key="3">
-          <ClientViewArrangementCard
-            arrangementData={dummy_arrangement_data_list[2]}
-            removeThisArrangement={() => { alert('removed.') }}
-            addNewArrangement={() => { alert('added.') }}
-          >
-          </ClientViewArrangementCard>
-        </Draggable>
+      <Container 
+      onDrop={onArrangementCardDrop}
+      getChildPayload={index =>getArrangementCardPayload(index)}
+      >
+        {arrangementDataList.map((arrangementData, i) => {
+          return (
+          <Draggable 
+          key={arrangementData.arrangementId}>
+            <ClientViewArrangementCard
+              arrangementData={arrangementData}
+              removeThisArrangement={() => { alert('removed.') }}
+              addNewArrangement={() => { alert('added.') }}
+            />
+          </Draggable>)
+        })}
       </Container>
 
     </div>
