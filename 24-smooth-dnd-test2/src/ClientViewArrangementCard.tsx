@@ -99,9 +99,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center'
   },
-  options: {
-
-  },
   formControl: {
 
   },
@@ -203,6 +200,7 @@ const ClientViewArrangementCard: React.SFC<IClientViewArrangementCard> = (props)
               <div className={classes.header}>
                 <div className={classes.arrangementTitle}>
                   <TextField
+                    className="arrangement-name"
                     id="name"
                     type="text"
                     defaultValue={arrangementData.name}
@@ -250,6 +248,7 @@ const ClientViewArrangementCard: React.SFC<IClientViewArrangementCard> = (props)
               <div className={classes.rightCol}>
                 <div className={classes.description}>
                   <TextField
+                    className="description"
                     label="Description"
                     id="description"
                     type="text"
@@ -263,6 +262,7 @@ const ClientViewArrangementCard: React.SFC<IClientViewArrangementCard> = (props)
                 </div><br />
                 <div className={classes.note}>
                   <TextField
+                    className="note"
                     label="Note"
                     id="note"
                     type="text"
@@ -275,6 +275,7 @@ const ClientViewArrangementCard: React.SFC<IClientViewArrangementCard> = (props)
                 </div><br />
                 <div className={classes.qty}>
                   <TextField
+                    className="qty"
                     label="Qty"
                     id="qty"
                     type="number"
@@ -284,16 +285,17 @@ const ClientViewArrangementCard: React.SFC<IClientViewArrangementCard> = (props)
                 </div><br />
                 <div className={classes.price}>
                   <TextField
+                    className="price"
                     label="Price"
                     id="price"
                     type="number"
                     defaultValue={arrangementData.price}
                     onChange={handlePriceChange}
                   ></TextField>
-                </div><br/>
+                </div><br />
               </div>
               <div className={classes.rightCol}>
-                <div className={classes.options}>
+                <div className="options">
                   <FormControl component="fieldset" className={classes.formControl}>
                     <RadioGroup
                       aria-label="options"

@@ -66,9 +66,12 @@ function App() {
     return arrangementDataList[index];
   };
 
+  const nonDraggableArea = ".arrangement-name, .description, .note, .qty, .price, .options";
+
   return (
     <div className="App">
       <Container 
+      nonDragAreaSelector={nonDraggableArea}
       onDrop={onArrangementCardDrop}
       getChildPayload={index =>getArrangementCardPayload(index)}
       >
