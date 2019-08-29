@@ -12,7 +12,7 @@ function App() {
     eventId: "tW5jFC68DT8SUcJ8uEmM",
     note: 'this is a table for reception',
     qty: 2,
-    price: 1000
+    priceClient: 1000
   }, {
     arrangementId: 'lAd5dQTsqdwrGb7v3Dqh',
     name: 'Cocktail Table',
@@ -21,7 +21,7 @@ function App() {
     eventId: "tW5jFC68DT8SUcJ8uEmM",
     note: 'this is a table for cocktails',
     qty: 3,
-    price: 500
+    priceClient: 500
   }, {
     arrangementId: 'jPeM4rbp2Kq3pI6EQuwE',
     name: 'Guest Table Style',
@@ -30,19 +30,21 @@ function App() {
     eventId: "tW5jFC68DT8SUcJ8uEmM",
     note: 'special guest table',
     qty: 5,
-    price: 750
+    priceClient: 750
   }
   ]
 
   const [arrangementDataList, setArrangementDataList] = useState(dummy_arrangement_data_list);
 
+  const updateArrangmentList = (index, newArrangementData) => {
+    let tempArrangementDataList = arrangementDataList.slice(0);
+    tempArrangementDataList[index]= newArrangementData;
+    setArrangementDataList(tempArrangementDataList);
+  }
+
   const onArrangementCardDrop = (dropResult) => {
     if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
-      console.log("drop catched");
-      
       let newArrangementDataList = applyDrag(arrangementDataList, dropResult);
-      console.log(arrangementDataList);
-      console.log(newArrangementDataList);
       setArrangementDataList(newArrangementDataList);
     }
   };
@@ -66,7 +68,7 @@ function App() {
     return arrangementDataList[index];
   };
 
-  const nonDraggableArea = ".arrangement-name, .description, .note, .qty, .price, .options";
+  const nonDraggableArea = ".arrangement-name, .description, .note, .qty, .each-price-client, .extend-price-client, .options";
 
   return (
     <div className="App">
@@ -75,12 +77,14 @@ function App() {
       onDrop={onArrangementCardDrop}
       getChildPayload={index =>getArrangementCardPayload(index)}
       >
-        {arrangementDataList.map((arrangementData, i) => {
+        {arrangementDataList.map((arrangementData, index) => {
           return (
           <Draggable 
           key={arrangementData.arrangementId}>
             <ClientViewArrangementCard
               arrangementData={arrangementData}
+              arrangementIndex={index}
+              updateArrangmentList={updateArrangmentList}
               removeThisArrangement={() => { alert('removed.') }}
               addNewArrangement={() => { alert('added.') }}
             />

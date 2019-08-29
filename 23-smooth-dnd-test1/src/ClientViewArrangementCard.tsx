@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 // import { render } from 'react-dom';
 
 import { makeStyles } from '@material-ui/styles';
@@ -80,7 +80,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   qty: {
 
   },
-  price: {
+  eachPrice: {
+
+  },
+  extendPrice:{
 
   },
   label: {
@@ -99,6 +102,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center'
   },
+  options: {
+
+  },
   formControl: {
 
   },
@@ -112,6 +118,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface IClientViewArrangementCard {
   arrangementData: any
+  arrangementIndex: number
+  updateArrangmentList: any
   addNewArrangement: any
   removeThisArrangement: any
 }
@@ -124,44 +132,42 @@ const ClientViewArrangementCard: React.SFC<IClientViewArrangementCard> = (props)
   };
 
   const classes = useStyles(props);
-
-  const [arrangementData, setArrangementData] = useState(props.arrangementData);
   const [isExpanded, setIsExpanded] = useState(true);
   const [option, setOption] = useState(Options.Arrangement);
 
   const handleNameChange = (e: any) => {
     let newName = e.currentTarget.value;
-    let newArrangementData = arrangementData;
+    let newArrangementData = props.arrangementData;
     newArrangementData.name = newName;
-    setArrangementData(newArrangementData);
+    props.updateArrangmentList(props.arrangementIndex, newArrangementData);
   };
 
   const handleDescriptionChange = (e: any) => {
     let newDescription = e.currentTarget.value;
-    let newArrangementData = arrangementData;
+    let newArrangementData = props.arrangementData;
     newArrangementData.description = newDescription;
-    setArrangementData(newArrangementData);
+    props.updateArrangmentList(props.arrangementIndex, newArrangementData);
   };
 
   const handleNoteChange = (e: any) => {
     let newNote = e.currentTarget.value;
-    let newArrangementData = arrangementData;
+    let newArrangementData = props.arrangementData;
     newArrangementData.note = newNote;
-    setArrangementData(newArrangementData);
+    props.updateArrangmentList(props.arrangementIndex, newArrangementData);
   };
 
   const handleQtyChange = (e: any) => {
     let newQty = e.currentTarget.value;
-    let newArrangementData = arrangementData;
+    let newArrangementData = props.arrangementData;
     newArrangementData.qty = newQty;
-    setArrangementData(newArrangementData);
+    props.updateArrangmentList(props.arrangementIndex, newArrangementData);
   };
 
   const handlePriceChange = (e: any) => {
-    let newPrice = e.currentTarget.value;
-    let newArrangementData = arrangementData;
-    newArrangementData.price = newPrice;
-    setArrangementData(newArrangementData);
+    let newPriceClient = e.currentTarget.value;
+    let newArrangementData = props.arrangementData;
+    newArrangementData.priceClient = newPriceClient;
+    props.updateArrangmentList(props.arrangementIndex, newArrangementData);
   };
 
   const handleExpand = () => {
@@ -192,7 +198,7 @@ const ClientViewArrangementCard: React.SFC<IClientViewArrangementCard> = (props)
 
   return (
     <div className={classes.container}>
-      {(arrangementData)
+      {(props.arrangementData)
         ?
         <Card className={classes.arrangementCard}>
           <CardActionArea>
@@ -203,7 +209,7 @@ const ClientViewArrangementCard: React.SFC<IClientViewArrangementCard> = (props)
                     className="arrangement-name"
                     id="name"
                     type="text"
-                    defaultValue={arrangementData.name}
+                    defaultValue={props.arrangementData.name}
                     onChange={handleNameChange}
                     fullWidth={true}
                   ></TextField>
@@ -240,8 +246,8 @@ const ClientViewArrangementCard: React.SFC<IClientViewArrangementCard> = (props)
               <div className={classes.leftCol}>
                 <CardMedia
                   className={classes.image}
-                  image={arrangementData.imgUrl}
-                  title={arrangementData.name}
+                  image={props.arrangementData.imgUrl}
+                  title={props.arrangementData.name}
                 />
               </div>
 
@@ -255,7 +261,7 @@ const ClientViewArrangementCard: React.SFC<IClientViewArrangementCard> = (props)
                     multiline
                     rows="3"
                     rowsMax="5"
-                    defaultValue={arrangementData.description}
+                    defaultValue={props.arrangementData.description}
                     onChange={handleDescriptionChange}
                     margin="normal"
                   ></TextField>
@@ -269,7 +275,7 @@ const ClientViewArrangementCard: React.SFC<IClientViewArrangementCard> = (props)
                     multiline
                     rows="3"
                     rowsMax="5"
-                    defaultValue={arrangementData.note}
+                    defaultValue={props.arrangementData.note}
                     onChange={handleNoteChange}
                   ></TextField>
                 </div><br />
@@ -279,19 +285,27 @@ const ClientViewArrangementCard: React.SFC<IClientViewArrangementCard> = (props)
                     label="Qty"
                     id="qty"
                     type="number"
-                    defaultValue={arrangementData.qty}
+                    defaultValue={props.arrangementData.qty}
                     onChange={handleQtyChange}
                   ></TextField>
                 </div><br />
-                <div className={classes.price}>
+                <div className={classes.eachPrice}>
                   <TextField
-                    className="price"
-                    label="Price"
-                    id="price"
+                    className="each-price-client"
+                    label="Ea. Price"
+                    id="each-price-client"
                     type="number"
-                    defaultValue={arrangementData.price}
+                    defaultValue={props.arrangementData.priceClient}
                     onChange={handlePriceChange}
                   ></TextField>
+                </div><br/>
+                <div className={classes.extendPrice}>
+                  <Typography
+                    className="extend-price-client"
+                    id="extend-price-client"
+                  >
+                  {`Ext. Price: ${props.arrangementData.priceClient * props.arrangementData.qty}`}
+                  </Typography>
                 </div><br/>
               </div>
               <div className={classes.rightCol}>
