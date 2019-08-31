@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React: test render a list of JSX elements</title>
+
+    <!-- React - the React top level API -->
+    <script src="https://unpkg.com/react@latest/umd/react.development.js"></script>
+    <!-- React DOM - adds DOM-specific methods -->
+    <script src="https://unpkg.com/react-dom@latest/umd/react-dom.development.js"></script>
+    <!-- Babel - a JavaScript compiler that lets us use ES6+ in old browsers -->
+    <script src="https://unpkg.com/babel-standalone@latest/babel.js"></script>
+
+    <style>
+
+    </style>
+</head>
+
+<body>
+<h1>React: test render a list of JSX elements</h1>
+<p>this test is to find difference of HTML element and JSX elements</p>
+<p>JSX elements are objects</p>
+
+<div id='demo1'>demo1 is here</div>
+
+</body>
+<script type="text/babel">
+
+const contentList = [
+    "Able",
+    "Bravo",
+    "Charlie",
+    "Dog",
+    "Echo",
+    "Fox"
+];
+
+const Test = () => {
+    var result = [];
+
+    contentList.map((value, index) =>{
+        result.push(<div key={index}>{value}</div>);
+    }
+    );
+
+    console.log(result);
+    return (
+        // <div>render Test</div>
+        result
+    );
+}
+
+const Test1 = () => {
+    var result1 = contentList.map((value, index) =>{
+        return <div key={index}>{value}</div>;
+    }
+    );
+
+    console.log(result1);
+    return result1;
+}
+
+// this one doses not work, since elements in array are not parsed as JSX
+const Test2 = [
+    <div key="1">able</div>,
+    <div key="2">baker</div>,
+    <div key="3">charlie</div>,
+];
+
+ReactDOM.render(
+    <Test1 />,
+    document.getElementById('demo1')
+);
+</script>
+
+</html>
