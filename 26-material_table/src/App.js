@@ -1,5 +1,6 @@
 import React from 'react';
 import MaterialTable from 'material-table';
+import { TableIcons } from './Table';
 
 function MaterialTableDemo() {
   const [state, setState] = React.useState({
@@ -26,6 +27,7 @@ function MaterialTableDemo() {
 
   return (
     <MaterialTable
+      icons={TableIcons}
       title="Editable Example"
       columns={state.columns}
       data={state.data}
