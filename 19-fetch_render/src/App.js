@@ -3,12 +3,12 @@ import { useState , useEffect } from 'react';
 import firebase from  'firebase';
 
 const config = {
-    apiKey: process.env.REACT_APP_API_KEY,
-    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-    databaseURL: process.env.REACT_APP_DATABASE_URL,
+    apiKey: process.env.KEY,
+    authDomain: process.env.DOMAIN,
+    databaseURL: process.env.URL,
     projectId: process.env.REACT_APP_PROJECT_ID,
-    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+    storageBucket: process.env.BUCKET,
+    messagingSenderId: process.env.SENDER_ID,
   };
 
   firebase.initializeApp(config);
@@ -16,24 +16,35 @@ const config = {
 const App = () => {
 
   const personHolder = {
+    age: 0,
+    eventDate:"",
     name:"",
-    eventDate:""
   };
 
   const [person1, setPerson1] = useState(personHolder);
+  const [person3, setPerson3] = useState(personHolder);
   const [update, setUpdate] = useState(true);
 
   var db = firebase.firestore();
   var person1Ref = db.collection("test01").doc("person1");
+  var person3Ref = db.collection("test01").doc("person3");
 
-  const handleClick = (e) =>{
-    console.log("clicked " + e.target.value);
+  const handleClick1 = (e) =>{
+    console.log("clicked #1 " + e.target.value);
     let newName = randomName(6);
     person1Ref.update({
       name: newName
-    })
+    });
     setUpdate(!update);
   };
+
+  const handleClick2 = (e) => {
+    console.log("clicled #3 " + e.target.value);
+    let newName = randomName(6);
+    person3Ref.update({
+      name: newName
+    });
+  }
 
   const randomName = (length) => {
     let sourceString = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
@@ -47,7 +58,7 @@ const App = () => {
 
   useEffect(() => {
     person1Ref.get().then((doc)=>{
-      console.log("fetching...");
+      console.log("fetching person 1 ...");
       console.log(doc);
       let docData = doc.data()
       console.log(docData);
@@ -56,6 +67,18 @@ const App = () => {
       newPerson.eventDate = (new Date(docData.eventDate.seconds * 1000)).toLocaleString();
       setPerson1(newPerson);
     });
+
+    person3Ref.onSnapshot((doc)=>{
+      console.log("fetching person 3...");
+      console.log(doc);
+      let docData = doc.data()
+      console.log(docData);
+      let newPerson = {};
+      newPerson.name = docData.name;
+      newPerson.age = docData.age;
+      setPerson3(newPerson);
+    });
+    
   }, [update]);
 
   return (
@@ -68,9 +91,21 @@ const App = () => {
     <br/>
     <br/>
     <button
-    onClick={handleClick}
+    onClick={handleClick1}
     >
-    Click to change name
+    Click to change person1's name
+    </button>
+    <p>person3's name: </p>
+      {person3.name}
+    <p>person1's age</p>
+      {person3.age}
+    <br/>
+    <br/>
+    <br/>
+    <button
+    onClick={handleClick2}
+    >
+    Click to change person3's name
     </button>
     </div>
   );
