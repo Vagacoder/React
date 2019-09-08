@@ -15,16 +15,28 @@ function App() {
   );
 }
 
+function Header() {
+  return (
+    <ul>
+      <li>
+        <Link to="/">Home</Link>
+      </li>
+      <li>
+        <Link to="/about">About</Link>
+      </li>
+      <li>
+        <Link to="/topics">Topics</Link>
+      </li>
+    </ul>
+  );
+}
+
 function Home() {
   return <h2>Home</h2>;
 }
 
 function About() {
   return <h2>About</h2>;
-}
-
-function Topic({ match }) {
-  return <h3>Requested Param: {match.params.id}</h3>;
 }
 
 function Topics({ match }) {
@@ -51,20 +63,8 @@ function Topics({ match }) {
   );
 }
 
-function Header() {
-  return (
-    <ul>
-      <li>
-        <Link to="/">Home</Link>
-      </li>
-      <li>
-        <Link to="/about">About</Link>
-      </li>
-      <li>
-        <Link to="/topics">Topics</Link>
-      </li>
-    </ul>
-  );
+function Topic({ match }) {
+  return <h3>Requested Param: {match.params.id}</h3>;
 }
 
 export default App;
