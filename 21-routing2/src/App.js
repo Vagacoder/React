@@ -2,14 +2,19 @@ import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 function App() {
+
+  var auth = (Math.random() > 0.5);
+  
   return (
     <Router>
       <div>
         <Header />
 
         <Route exact path="/" component={Home} />
+        <Route path="/dashboard" render={(props) => <Dashboard {...props} isAuthed={auth} />} />
         <Route path="/about" component={About} />
         <Route path="/topics" component={Topics} />
+        
       </div>
     </Router>
   );
@@ -20,6 +25,9 @@ function Header() {
     <ul>
       <li>
         <Link to="/">Home</Link>
+      </li>
+      <li>
+        <Link to="dashboard">Dashboard</Link>
       </li>
       <li>
         <Link to="/about">About</Link>
@@ -33,6 +41,20 @@ function Header() {
 
 function Home() {
   return <h2>Home</h2>;
+}
+
+const Dashboard = (props) => {
+  if (props.isAuthed){
+    return (
+      <div>
+        This is Dashboard
+      </div>
+    );
+  } else {
+    return (
+      <div> PLease login </div>
+    );
+  }
 }
 
 function About() {
