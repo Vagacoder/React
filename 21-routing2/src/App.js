@@ -111,6 +111,7 @@ const Tacos = ({ match }) => {
       </ul>
       <br />
       <div>
+        <Route exact path={match.url} render={() => {return <div>Click links above to select</div>}} />
         <Route path={match.url + "/carnitas"} component={Carnitas} />
         <Route path={match.url + "/fishtacos"} component={Fishtacos} />
       </div>
