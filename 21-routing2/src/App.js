@@ -1,20 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 function App() {
 
-  var auth = (Math.random() > 0.5);
-  
+  const [auth, setAuth] = useState(true);
+
+  const toggleAuth = () => {
+    setAuth(!auth);
+  }
+
   return (
     <Router>
       <div>
+        <button onClick={toggleAuth}>Click to toggle login</button>
         <Header />
 
         <Route exact path="/" component={Home} />
         <Route path="/dashboard" render={(props) => <Dashboard {...props} isAuthed={auth} />} />
         <Route path="/about" component={About} />
         <Route path="/topics" component={Topics} />
-        
+        <Route path="/tacos" component={Tacos} />
       </div>
     </Router>
   );
@@ -35,6 +40,9 @@ function Header() {
       <li>
         <Link to="/topics">Topics</Link>
       </li>
+      <li>
+        <Link to="/Tacos">Tacos</Link>
+      </li>
     </ul>
   );
 }
@@ -44,7 +52,7 @@ function Home() {
 }
 
 const Dashboard = (props) => {
-  if (props.isAuthed){
+  if (props.isAuthed) {
     return (
       <div>
         This is Dashboard
@@ -87,6 +95,43 @@ function Topics({ match }) {
 
 function Topic({ match }) {
   return <h3>Requested Param: {match.params.id}</h3>;
+}
+
+const Tacos = ({ match }) => {
+  return (
+    <div>
+      <h4>Menu for Tacos</h4>
+      <ul>
+        <li>
+          <Link to={`${match.url}/carnitas`}>Carnitas</Link>
+        </li>
+        <li>
+          <Link to={`${match.url}/fishtacos`}>Fish Tacos</Link>
+        </li>
+      </ul>
+      <br />
+      <div>
+        <Route path={match.url + "/carnitas"} component={Carnitas} />
+        <Route path={match.url + "/fishtacos"} component={Fishtacos} />
+      </div>
+    </div>
+  );
+};
+
+const Carnitas = () => {
+  return (
+    <div>
+      This is Carnitas.
+    </div>
+  );
+};
+
+const Fishtacos = () => {
+  return (
+    <div>
+      This is Fish Tacos.
+    </div>
+  );
 }
 
 export default App;
