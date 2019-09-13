@@ -3,35 +3,47 @@ import { useState } from 'react';
 import ThemedButton from './themed-button';
 import { ThemeContext, themes } from './theme-context';
 
-const Toolbar = (props) => {
+// An intermediate component that uses the ThemedButton
+function Toolbar(props) {
   return (
     <ThemedButton onClick={props.changeTheme}>
       Change Theme
     </ThemedButton>
   );
-};
+}
 
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      theme: themes.light,
+    };
 
-const App = (props) =>{
+    this.toggleTheme = () => {
+      this.setState(state => ({
+        theme:
+          state.theme === themes.dark
+            ? themes.light
+            : themes.dark,
+      }));
+    };
+  }
 
-  const [theme, setTheme] = useState(themes.light);
-
-  console.log(theme);
-
-  const toggleTheme = () => {
-    setTheme(theme === themes.dark? themes.light: themes.dark);
-  };
-
-  return (
-    <div>
-      <ThemeContext.Provider value={theme}>
-        <Toolbar changeTheme={toggleTheme} />
-      </ThemeContext.Provider>
+  render() {
+    // The ThemedButton button inside the ThemeProvider
+    // uses the theme from state while the one outside uses
+    // the default dark theme
+    return (
       <div>
-        <ThemedButton />
+        <ThemeContext.Provider value={this.state.theme}>
+          <Toolbar changeTheme={this.toggleTheme} />
+        </ThemeContext.Provider>
+        <div>
+          <ThemedButton>Dummy sample button</ThemedButton>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default App;
