@@ -1,11 +1,13 @@
 import React from 'react';
-import { ThemeContext } from './theme-context'
+import { ThemeContext, themes } from './theme-context'
 
 function ThemeTogglerButton() {
 
   return (
     <ThemeContext.Consumer>
-      {({ theme, toggleTheme }) => {
+      {value => {
+        const theme = value.theme;
+        const toggleTheme = value.toggleTheme;
         console.log('theme: ', theme);
         console.log('toggleTheme : ', toggleTheme);
         return (
