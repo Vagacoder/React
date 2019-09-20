@@ -17,6 +17,7 @@ import './dayGrid.css';
 import './timeGrid.css';
 import './list.css';
 import { EventApi, View } from '@fullcalendar/core';
+import Tooltip from 'tooltip.js';
 
 const dummy_events = [
   {
@@ -55,7 +56,35 @@ const dummy_events = [
     start: '2019-09-19 15:45',
     end: '2019-09-19 18:30',
     backgroundColor: 'rgba(229, 115, 115, 0.8)',
-    textColor: 'gold' 
+    textColor: 'gold'
+  },
+  {
+    title: 'event 7',
+    start: '2019-09-19T15:30:00Z',
+  },
+  {
+    title: 'event 8',
+    start: '2019-09-19T15:30:00',
+  },
+  {
+    title: 'event 9',
+    start: '2019-09-20T17:30:00Z',
+  },
+  {
+    title: 'event 10',
+    start: '2019-09-20T17:30:00',
+  },
+  {
+    title: 'event 11',
+    start: '2019-09-17T17:30:00',
+  },
+  {
+    title: 'event 12',
+    start: '2019-09-17T18:00:00',
+  },
+  {
+    title: 'event 13',
+    start: '2019-09-17T19:00:00',
   }
 ];
 
@@ -67,7 +96,7 @@ const handleClickOnEvent = (arg: any) => {
   alert('clicked event is: \n' + arg.event._def.title);
 }
 
-const timeZoneString = 'America/Los_Angeles';
+const timeZoneString = 'local';
 const timeFormatString = 'MMMM DD YYYY';
 
 const headers = {
@@ -93,6 +122,12 @@ const customButtons = {
   }
 };
 
+const eventTimeFormat = {
+  hour: 'numeric',
+  minute: '2-digit',
+  meridiem: 'short'
+};
+
 const eventRender = (info: {
   isMirror: boolean;
   isStart: boolean;
@@ -101,15 +136,44 @@ const eventRender = (info: {
   el: HTMLElement;
   view: View;
 }) => {
-  if(info.event.extendedProps.status === "LEAD"){
+  if (info.event.extendedProps.status === "LEAD") {
     info.el.style.backgroundColor = 'rgba(229, 115, 115, 0.8)';
     info.el.style.color = 'gold';
-    var dotEl : any = info.el.getElementsByClassName('fc-event-dot')[0];
-      if (dotEl) {
-        dotEl.style.backgroundColor = 'white';
-      }
+    var dotEl: any = info.el.getElementsByClassName('fc-event-dot')[0];
+    if (dotEl) {
+      dotEl.style.backgroundColor = 'white';
+    }
   } else if ((info.event.extendedProps.status === "BOOKED")) {
     info.el.style.backgroundColor = 'rgba(129, 199, 132, 0.8)';
+  }
+  let description = "Event Title: " + info.event.title + "\nStart Time is:" + info.event.start;
+  var tooltip = new Tooltip(info.el, {
+    title: description,
+    placement: "top",
+    trigger: "hover",
+    container: "body"
+  })
+};
+
+const clickOnEvent = (info:{
+  el: HTMLElement;
+  event: EventApi;
+  jsEvent: MouseEvent;
+  view: View;
+}) => {
+  var eventObj = info.event;
+
+  if (eventObj.url) {
+    alert(
+      'Clicked ' + eventObj.title + '.\n' +
+      'Will open ' + eventObj.url + ' in a new tab'
+    );
+
+    window.open(eventObj.url);
+
+    info.jsEvent.preventDefault(); // prevents browser from following link in current tab.
+  } else {
+    alert('Event: \n' + eventObj.title + "\n\nStart: \n" + eventObj.start);
   }
 };
 
@@ -126,7 +190,7 @@ function App() {
         footer={footers}
         customButtons={customButtons}
         dateClick={handleClickOnDate}
-        eventClick={handleClickOnEvent}
+        eventClick={clickOnEvent}
         defaultView="dayGridMonth"
         plugins={
           [dayGridPlugin,
@@ -138,10 +202,18 @@ function App() {
         events={dummy_events}
         eventRender={eventRender}
         titleFormat={timeFormatString}
+        eventTimeFormat={eventTimeFormat}
+        eventLimit={true}
+        eventLimitClick="popover"
+        eventLimitText="more events"
+        dayPopoverFormat={ {weekday: 'long', month: 'long', day: 'numeric'}}
         timeZone={timeZoneString}
         views={{
           listWeek: { buttonText: 'Week list' },
           listMonth: { buttonText: 'Month list' }
+        }}
+        columnHeaderFormat={{
+          weekday: 'long',
         }}
       //themeSystem="bootstrap"
       />
