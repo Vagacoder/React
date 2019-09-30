@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, Component } from 'react';
 import ReactDOM from 'react-dom';
 import MaterialTable, { MTableActions, MTableAction } from 'material-table';
 import Button from '@material-ui/core/Button';
@@ -26,7 +26,7 @@ function App() {
     }
   ];
 
-  const data = [
+  const [data, setData ] = useState([
     {
       name: 'Alex',
       surname: 'Smith', birthYear: 1987,
@@ -42,8 +42,7 @@ function App() {
       surname: 'Woods', birthYear: 1990,
       birthCity: 8
     }
-
-  ]
+  ]);
 
   return (
     <div style={{ maxWidt: '100%' }} className="App">
@@ -73,17 +72,22 @@ function App() {
             ),
             Action: props => (
               <div>
-                <Switch
-                  onChange={(event) => alert('clicked!')}
+                <Switch props={{...props}}
                   checked={false}
                 />
                 <span> Book </span>
               </div>
             )
           }
-
-
         }
+        editable={{
+          onRowUpdate: (newData, oldData) => {
+              const tempData = {...data};
+              const index = data.indexOf(oldData);
+              tempData[index] = newData;
+              setData(tempData);
+          }
+        }}
       >
       </MaterialTable>
     </div>

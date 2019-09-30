@@ -5,9 +5,9 @@ import { TableIcons } from './Table';
 function MaterialTableDemo() {
   const [state, setState] = React.useState({
     columns: [
-      { title: 'Name', field: 'name' },
-      { title: 'Surname', field: 'surname' },
-      { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
+      { title: 'Name', field: 'name', editable: 'never' },
+      { title: 'Surname', field: 'surname', editable:'never'},
+      { title: 'Birth Year', field: 'birthYear', type: 'numeric', editable:'never' },
       {
         title: 'Birth Place',
         field: 'birthCity',
@@ -59,6 +59,9 @@ function MaterialTableDemo() {
               setState({ ...state, data });
             }, 600);
           }),
+      }}
+      options={{
+        actionsColumnIndex: 4
       }}
     />
   );
