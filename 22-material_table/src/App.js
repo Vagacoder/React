@@ -1,25 +1,28 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import MaterialTable from 'material-table';
+import MaterialTable, { MTableActions, MTableAction } from 'material-table';
 import Button from '@material-ui/core/Button';
+import Switch from '@material-ui/core/Switch';
 function App() {
 
-  const columns=[
+  const columns = [
     { title: 'First Name', field: 'name' },
     { title: 'Family Name', field: 'surname' },
     { title: 'Date of Birth', field: 'birthYear', type: 'numeric' },
-    { title: 'Birth City', field: 'birthCity', 
-    lookup: {
-      1: 'Washington',
-      2: 'Los Angeles',
-      3: 'Tokoyo',
-      4: 'Moscow',
-      5: 'Miami',
-      6: 'Beijing',
-      7: 'New Deli',
-      8: 'Paris',
-      9: 'London',
-      10: 'Oakland' } 
+    {
+      title: 'Birth City', field: 'birthCity',
+      lookup: {
+        1: 'Washington',
+        2: 'Los Angeles',
+        3: 'Tokoyo',
+        4: 'Moscow',
+        5: 'Miami',
+        6: 'Beijing',
+        7: 'New Deli',
+        8: 'Paris',
+        9: 'London',
+        10: 'Oakland'
+      }
     }
   ];
 
@@ -45,7 +48,7 @@ function App() {
   return (
     <div style={{ maxWidt: '100%' }} className="App">
       <div><a href="https://material-table.com/#/">Maerial-Table</a></div>
-      <br/>
+      <br />
       <MaterialTable
         columns={columns}
         data={data}
@@ -67,8 +70,19 @@ function App() {
               <div>
                 <Button>Click it</Button>
               </div>
+            ),
+            Action: props => (
+              <div>
+                <Switch
+                  onChange={(event) => alert('clicked!')}
+                  checked={false}
+                />
+                <span> Book </span>
+              </div>
             )
           }
+
+
         }
       >
       </MaterialTable>
