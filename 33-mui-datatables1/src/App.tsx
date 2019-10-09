@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from "react-dom";
 import MUIDataTable from 'mui-datatables';
-
+// import * as * from '@material-ui/core';
+// import * as * from '@material-ui/icons';
 
 const Table: React.FC = () => {
 
@@ -82,13 +83,13 @@ const Table: React.FC = () => {
   ];
 
   const options = {
-    filter: true,
+    filter: true as true,
     onFilterChange: (changedColumn: any, filterList: any) => {
       console.log(changedColumn, filterList);
     },
-    selectableRows: true,
-    filterType: 'dropdown',
-    responsive: 'stacked',
+    selectableRows: "single" as "single",
+    filterType: 'dropdown' as 'dropdown',
+    responsive: 'stacked' as 'stacked',
     rowsPerPage: 10,
     page: 1,
   };
