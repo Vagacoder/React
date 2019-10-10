@@ -4,18 +4,29 @@ import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import { orange, red, blue, green } from '@material-ui/core/colors';
 
+const theme = createMuiTheme({
+  primary: 'hotpink',
+  secondary: 'deepskyblue',
+  danger: 'crimson',
+  info: 'dodgerblue',
+  success: 'mediumseagreen',
+  warning: 'darkorange'
+});
+
 const useStyles = makeStyles(theme => ({
-  root:{
-    color: theme.color,
+  root: {
+    color: theme.primary,
     '&$checked': {
-      color: theme.color,
+      color: theme.success,
     },
   },
-  checked: {},
+  checked: {
+    color: theme.info,
+  }
 }));
 
 
-function CustomCheckbox(){
+function CustomCheckbox() {
   const classes = useStyles();
 
   return (
@@ -25,13 +36,14 @@ function CustomCheckbox(){
         root: classes.root,
         checked: classes.checked,
       }}
-      />
+    />
   );
 }
 
-const theme = createMuiTheme({color: blue[500]});
 
 function App() {
+  const classes = useStyles();
+
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
@@ -40,10 +52,12 @@ function App() {
           <p>Material UI -> Usage -> Typography -> Theme </p>
           <p>this example is using Material-UI Theme</p>
           <a href="https://material-ui.com/customization/themes/">The description link is here</a>
-          
+
         </div>
         <div>
           <CustomCheckbox />
+          <Checkbox 
+          classes={classes.checked}/>
         </div>
       </ThemeProvider>
     </div>
