@@ -1,19 +1,18 @@
 import React from 'react';
-import { makeStyles, withStyles } from '@material-ui/styles';
+import { makeStyles, withStyles, createStyles } from '@material-ui/styles';
 
-const useStyles = makeStyles({
-    context:{}
-})
-
-const Nested = (props : any) => {
-
-    const classes = useStyles(props.classes);
-
-    return (
-        <div className={classes.context}>
-            Nested contents
-        </div>
-    );
-}
+const Nested = withStyles({
+  root: {}, // a style rule
+  label: {}, // a nested style rule
+})(({ classes }: any) => (
+  <div>
+    <h4>Nested, using withStyles()</h4>
+    <button className={classes.root}>
+      <span className={classes.label}>
+        Nested `${classes.label}`
+      </span>
+    </button>
+  </div>
+));
 
 export default Nested;

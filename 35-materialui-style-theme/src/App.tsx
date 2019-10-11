@@ -1,6 +1,6 @@
 import React from 'react';
 import { ThemeProvider } from '@material-ui/styles';
-import Child from './Child';
+import Child1 from './Child';
 import Child2 from './Child2';
 import Child3 from './Child3';
 import Nested from './Nested';
@@ -17,21 +17,22 @@ const innerTheme = {
   background: 'mediumseagreen',
 }
 
+// not used
 const nestedTheme = {
   context: {
-    color: "lime",
+    color: "orange",
   }
 }
 
 const App: React.FC = () => {
   return (
     <ThemeProvider theme={outerTheme}>
-      <Child></Child>
+      <Child1></Child1>
       <ThemeProvider theme={innerTheme}>
-        <Child></Child>
+        <Child1></Child1>
         <Child2></Child2>
-        <Nested classes={nestedTheme}></Nested>
         <Child3></Child3>
+        <Nested classes={{ label: 'my-label' }}></Nested>
       </ThemeProvider>
     </ThemeProvider>
   );

@@ -3,7 +3,7 @@ import { Button } from '@material-ui/core';
 import { useTheme, withTheme, makeStyles, createStyles } from '@material-ui/styles';
 import { MyTheme } from './App';
 
-const Child = () => {
+const Child1 = () => {
     const thisTheme = useTheme<MyTheme>();
 
     // #1 ====================================
@@ -43,11 +43,11 @@ const Child = () => {
     return (
         <div>
             <h4>Child 1, Sample text. </h4>
-            <p>Theme is: </p>
+            <p>Theme is based on theme providers: </p>
             <p className={classes.bold}>{thisTheme.background}</p>
-            <p>{classes.bold}</p>
+            <p>`class name of bold is: ${classes.bold}`</p>
         </div>
     );
 }
 
-export default withTheme(Child);
+export default withTheme(Child1);

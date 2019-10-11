@@ -20,9 +20,10 @@ const Child2 = (props : any) => {
 
     return (
         <div>
-            <div className={styles.header}>Header and headline</div>
-            Child 2. 
-            Sample text.
+            <h4>Child 2.</h4> 
+            <p>Override the theme colors</p>
+            <p>Theme here is:</p>
+            <div className={styles.header}>`color: ${styles.header}`</div>
         </div>
     );
 }
