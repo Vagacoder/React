@@ -4,7 +4,7 @@ import Konva from 'konva';
 import TransformRect from './TransformRect';
 import TransformText from './TransformText';
 import { KonvaEventObject } from 'konva/types/Node';
-import { Typography } from '@material-ui/core';
+import { Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import TransformImage from './TransformImage';
 import useImage from 'use-image';
@@ -76,22 +76,14 @@ const App: React.FC = () => {
   const LionImage = () => {
     const [image] = useImage('https://konvajs.org/assets/lion.png');
     return (
-    <Image 
-    draggable
-    image={image} 
-    />
+      <Image
+        draggable
+        image={image}
+      />
     );
   };
 
   const initialRectangles = [
-    {
-      x: 10,
-      y: 10,
-      width: 100,
-      height: 100,
-      fill: "red",
-      id: "rect1"
-    },
     {
       x: 150,
       y: 150,
@@ -99,7 +91,16 @@ const App: React.FC = () => {
       height: 100,
       fill: "green",
       id: "rect2"
+    },
+    {
+      x: 10,
+      y: 10,
+      width: 100,
+      height: 100,
+      fill: "red",
+      id: "rect1"
     }
+    
   ];
 
   const [rectangles, setRectangles] = React.useState(initialRectangles);
@@ -119,63 +120,70 @@ const App: React.FC = () => {
             selectShape(null);
           }
         }}
-        >
+      >
         <Layer
           className={classes.layer}
         >
-
           <TransformText
-          x={100}
-          y={200}
-          text='Tranformable Text #1'
+            x={100}
+            y={200}
+            text='Tranformable Text #1'
           />
 
-          {recList.map((rec) =>{
+          {recList.map((rec) => {
             return (
-            <TransformRect 
-            key={rec.uid}
-            x={rec.x}
-            y={rec.y}
-            width={rec.width}
-            height={rec.height}
-            fill={rec.fill}
-            shadowBlur={rec.shadowBlur}
-            handleClick={rec.enableClick}
-            />);
+              <TransformRect
+                key={rec.uid}
+                x={rec.x}
+                y={rec.y}
+                width={rec.width}
+                height={rec.height}
+                fill={rec.fill}
+                shadowBlur={rec.shadowBlur}
+                handleClick={rec.enableClick}
+              />);
           })}
 
           {
-            imageList.map((img) => {
+            imageList.map((img, i) => {
               return (
                 <TransformImage
                   key={img.uid}
                   x={img.x}
                   y={img.y}
                   url={img.url}
+                  shapeProps={img}
+                  isSelected={img.uid === selectedId}
+                  onSelect={() => {
+                    selectShape(img.uid);
+                  }}
+                  onChange={(newAttrs: any) => {
+                    const images = imageList.slice();
+                    images[i] = newAttrs;
+                    setImageList(images);
+                  }}
                 />
               );
             })
           }
 
-          <LionImage />
-
           {rectangles.map((rect, i) => {
-          return (
-            <Rectangle
-              key={i}
-              shapeProps={rect}
-              isSelected={rect.id === selectedId}
-              onSelect={() => {
-                selectShape(rect.id);
-              }}
-              onChange={(newAttrs: any) => {
-                const rects = rectangles.slice();
-                rects[i] = newAttrs;
-                setRectangles(rects);
-              }}
-            />
-          );
-        })}
+            return (
+              <Rectangle
+                key={i}
+                shapeProps={rect}
+                isSelected={rect.id === selectedId}
+                onSelect={() => {
+                  selectShape(rect.id);
+                }}
+                onChange={(newAttrs: any) => {
+                  const rects = rectangles.slice();
+                  rects[i] = newAttrs;
+                  setRectangles(rects);
+                }}
+              />
+            );
+          })}
 
         </Layer>
       </Stage>
