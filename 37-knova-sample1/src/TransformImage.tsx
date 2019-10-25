@@ -24,8 +24,6 @@ const TransformImage: React.SFC<ITransformImage> = (props) => {
   tempImage.src = props.url;
   const [image, setImage] = useState(tempImage);
 
-  console.log(image);
-
   useEffect(() => {
     if (props.isSelected) {
       if (trRef !== undefined && trRef.current !== undefined) {
@@ -39,13 +37,11 @@ const TransformImage: React.SFC<ITransformImage> = (props) => {
   return (
     <React.Fragment>
       <Image
-        onClick={props.onSelect}
-        ref={shapeRef}
         {...props.shapeProps}
+        ref={shapeRef}
         draggable
-        x={props.x}
-        y={props.y}
         image={image}
+        onClick={props.onSelect}
         onDragEnd={e => {
           props.onChange({
             ...props.shapeProps,

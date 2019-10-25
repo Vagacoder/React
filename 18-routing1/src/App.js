@@ -4,19 +4,6 @@ import Index from './Home';
 import About from './About';
 import Users from './User';
 
-// function Index() {
-//   return <h2>Home</h2>;
-// }
-
-// function About() {
-//   return <h2>About</h2>;
-// }
-
-// function Users() {
-//   return <h2>Users</h2>;
-// }
-
-
 function App() {
   return (
     <div className="App">

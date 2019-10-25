@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Stage, Layer, Rect, Text, Image } from 'react-konva';
+import { Stage, Layer, Rect, Text, Image, Line } from 'react-konva';
 import Konva from 'konva';
 import TransformRect from './TransformRect';
 import TransformText from './TransformText';
@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/styles';
 import TransformImage from './TransformImage';
 import useImage from 'use-image';
 import Rectangle from './Rec';
+import TransformLine from './TransformLine';
 
 const useStyles = makeStyles({
   stage: {
@@ -100,12 +101,33 @@ const App: React.FC = () => {
       fill: "red",
       id: "rect1"
     }
-    
+
   ];
 
   const [rectangles, setRectangles] = React.useState(initialRectangles);
+
+  const [lineList, setLineList] = useState([
+    {
+      uid: "062d1vdjkue5lx094kjalqjkz",
+      points: [0, 0, 500, 0],
+      stroke: "dodgerblue",
+      strokeWidth: 5,
+    },
+    {
+      uid: "bjitcdj4rx874lkj328ujzdalhapql",
+      points: [300, 80, 300, 600],
+      stroke: "#ff0500",
+      strokeWidth: 2,
+    }
+
+  ])
+
+
+
   const [selectedId, selectShape] = React.useState<string | null>(null);
 
+console.log(lineList);
+  
   return (
     <div>
       <p>Rectangle 01:</p>
@@ -184,6 +206,26 @@ const App: React.FC = () => {
               />
             );
           })}
+
+          {
+            lineList.map((line, i) => {
+              return (
+                <TransformLine
+                  key={line.uid}
+                  lineData={line}
+                  isSelected={line.uid === selectedId}
+                  onSelect={() => {
+                    selectShape(line.uid);
+                  }}
+                  onChange={(newLineData: any) => {
+                    let lines = lineList.slice();
+                    lines[i] = newLineData;
+                    setLineList(lines);
+                  }}
+                />
+              );
+            })
+          }
 
         </Layer>
       </Stage>
