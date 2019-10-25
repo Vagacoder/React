@@ -69,6 +69,7 @@ function About() {
   return <h2>About</h2>;
 }
 
+//==================
 function Topics({ match }) {
   return (
     <div>
@@ -97,6 +98,7 @@ function Topic({ match }) {
   return <h3>Requested Param: {match.params.id}</h3>;
 }
 
+// ==============
 const Tacos = ({ match }) => {
   return (
     <div>
