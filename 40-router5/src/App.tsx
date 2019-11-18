@@ -18,7 +18,7 @@ const App: React.FC = () => {
           <Person />
         </Route>
         <Route path="/">
-          <Redirtect to="/0" />
+          <Redirect to="/0" />
         </Route>
 
       </Switch>
