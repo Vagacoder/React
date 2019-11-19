@@ -68,7 +68,7 @@ const Form = () => {
   const [state, setState] = useState(form);
 
   const onDrop = (dropResult: any) => {
-    return setState(applyDrag(state, dropResult));
+    setState(applyDrag(state, dropResult));
   }
 
   const applyDrag = (arr: any[], dragResult: any) => {
