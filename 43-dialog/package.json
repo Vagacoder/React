@@ -1,6 +1,20 @@
 {
   "name": "43-dialog",
   "version": "0.1.0",
+  "license": "MIT",
+  "description": "Testing bloomtrac2.0 create new venue popup window style",
+  "keywords": [
+    "react",
+    "bloomtrac2.0",
+    "react",
+    "material-ui"
+  ],
+  "main": "index.tsx",
+  "repository": {
+    "type": "git",
+    "url": "",
+    "directory": ""
+  },
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.7.2",
