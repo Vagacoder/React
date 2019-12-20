@@ -28,7 +28,7 @@ const Child3 = (props: any) => {
             <h4>Child 3</h4>
             Combine the theme and overriding style:
             Use background style and add new style for text color
-            <div className={classes.child3}>`${classes.child3}`</div>
+            <div className={classes.child3}>{`${classes.child3}`}</div>
         </div>
     );
 

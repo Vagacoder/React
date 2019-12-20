@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Button } from '@material-ui/core';
+import React from 'react';
 import { useTheme, withTheme, makeStyles, createStyles } from '@material-ui/styles';
 import { MyTheme } from './App';
 
-const Child1 = () => {
-    const thisTheme = useTheme<MyTheme>();
+const Child1 = (props: any) => {
 
     // #1 ====================================
+    // const thisTheme = useTheme<MyTheme>();
     // const useStyle = makeStyles(
     //     {
     //         bold:{
@@ -18,16 +17,29 @@ const Child1 = () => {
     // =======================================
 
     // #2 ====================================
-    const useStyle = makeStyles((theme:MyTheme) => {
-        return (createStyles(
-            {
-                bold:{
-                    backgroundColor: theme.background,
-                }
+    // we can the theme provided from ThemeProvider by
+    // 1. useTheme(); 2. { theme } = props;
+    const { theme } = props;
+
+    // the hook useStyle is made by makeStyles()
+    // makeStyle takes function (e.g. createStyles) or a style object (like below)
+    // the hook useStyle can be outside of component, since it is independent to 
+    // the component which use it, and is called insided that component.
+    const useStyle = makeStyles((theme: MyTheme) => {
+        // return (createStyles(
+        return {
+            bold: {
+                color: theme.color,
+                backgroundColor: theme.background,
+                fontSize: "1.5em",
+                fontWeight: "bold",
             }
-        ));
+        }
+        // ));
     });
-    const classes = useStyle(thisTheme);
+
+    // useStyle can take props or props.theme as arg
+    const classes = useStyle(props);
     // =======================================
 
     // #3 ====================================
@@ -44,7 +56,7 @@ const Child1 = () => {
         <div>
             <h4>Child 1, Sample text. </h4>
             <p>Theme is based on theme providers: </p>
-            <p className={classes.bold}>{thisTheme.background}</p>
+            <p className={classes.bold}>{theme.background}</p>
             <p>`class name of bold is: ${classes.bold}`</p>
         </div>
     );
