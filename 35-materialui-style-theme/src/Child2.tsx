@@ -22,7 +22,6 @@ const Child2 = (props: any) => {
     // classes variable (styles here) providing class names
     const styles = useStyles();
 
-    console.log(theme);
     return (
         <div>
             <h4>Child 2.</h4>
