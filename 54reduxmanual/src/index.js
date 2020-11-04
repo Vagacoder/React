@@ -5,7 +5,7 @@ import './index.css';
 // import reportWebVitals from './reportWebVitals';
 
 // * Reducer
-const counter = (state=0, action)=>{
+const counter = (state = 0, action) => {
 
   // * ES5 style code
   // if(typeof state === 'undefined'){
@@ -21,7 +21,7 @@ const counter = (state=0, action)=>{
   // }
 
   // * ES6 style code
-  switch (action.type){
+  switch (action.type) {
     case 'INCREMENT':
       return state + 1;
     case 'DECREMENT':
@@ -39,13 +39,19 @@ const createStore = (reducer) => {
   const getState = () => state;
 
   const dispatch = (action) => {
+    // * update state
     state = reducer(state, action);
+
+    // ! call all listeners
     listeners.forEach(l => l());
   };
 
   const subscribe = (listener) => {
+    // * add new listener
     listeners.push(listener);
-    return ()=> {
+
+    // ! return a function to unsubscribe new listener
+    return () => {
       listeners = listeners.filter(l => l !== listener);
     }
   };
@@ -59,21 +65,54 @@ const createStore = (reducer) => {
 // * store
 const store = createStore(counter);
 
-const render = () => {
-  ReactDOM.render(
+
+const onIncrement = ()=> {
+  store.dispatch({ type:'INCREMENT' });
+}
+
+const onDecrement = ()=> {
+  store.dispatch({ type:'DECREMENT' });
+}
+
+// * refactor Counter component
+const Counter = ({ value }) => {
+  return (
     <React.StrictMode>
       <h1>Counter with Manual Redux</h1>
-      <div id='counterDisplay'>{store.getState()}</div>
-    </React.StrictMode>,
-  document.getElementById('root')
+      <div>{`Counts: click number to increase`}</div>
+      <div id='counterDisplay'>{value}</div>
+      <div>
+        <button id='increase' onClick={onIncrement}>INCREASE</button>
+        <button id='decrease' onClick={onDecrement}>DECREASE</button>
+      </div>
+      <br />
+      <div>
+        <button id='unsubscribe'>unsubscribe</button>
+      </div>
+    </React.StrictMode>)
+}
+
+
+const render = () => {
+  ReactDOM.render(
+    <Counter value={store.getState()} />,
+    document.getElementById('root')
   );
 }
 
-store.subscribe(render);
+const unsubscribeRender = store.subscribe(render);
 
 
 render();
-  
-document.getElementById('counterDisplay').addEventListener('click', ()=> {
-  store.dispatch({type:'INCREMENT'});
-});
+
+// document.getElementById('increase').addEventListener('click', () => {
+//   store.dispatch({ type: 'INCREMENT' });
+// });
+
+// document.getElementById('decrease').addEventListener('click', () => {
+//   store.dispatch({ type: 'DECREMENT' });
+// });
+
+document.getElementById('unsubscribe').addEventListener('click', () => {
+  unsubscribeRender();
+}); 
