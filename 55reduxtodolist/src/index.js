@@ -3,35 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 // import App from './App';
 
-import  { createStore } from '@reduxjs/toolkit';
+import { createStore } from '@reduxjs/toolkit';
+// import { combineReducers } from '@reduxjs/toolkit';
 
+import { Component } from 'react';
 
 // * Reducer Composited
-const todoApp = (state={}, action)=> {
-  return {
-    todos: todos(state.todos, action),
-    visibilityFilter: visibilityFilter(state.visibilityFilter, action)
-  };
-};
-
 
 // * sub reducer
-const todos = (state=[], action) => {
-  switch(action.type){
-    case 'ADD_TODO':
-      return [
-        ...state,
-        todo(undefined, action) 
-      ];
-    case 'TOGGLE_TODO':
-      return state.map((t)=> todo(t, action))
-    default:
-      return state;
-  }
-}
-
 const todo = (state, action) => {
-  switch(action.type){
+  switch (action.type) {
     case 'ADD_TODO':
       return {
         id: action.id,
@@ -39,9 +20,9 @@ const todo = (state, action) => {
         completed: false
       };
     case 'TOGGLE_TODO':
-      if (state.id !== action.id){
+      if (state.id !== action.id) {
         return state;
-      }else{
+      } else {
         return {
           ...state,
           completed: !state.completed
@@ -52,8 +33,22 @@ const todo = (state, action) => {
   }
 };
 
-const visibilityFilter = ( state = 'SHOW_ALL', action ) => {
-  switch(action.type){
+const todos = (state = [], action) => {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return [
+        ...state,
+        todo(undefined, action)
+      ];
+    case 'TOGGLE_TODO':
+      return state.map((t) => todo(t, action))
+    default:
+      return state;
+  }
+}
+
+const visibilityFilter = (state = 'SHOW_ALL', action) => {
+  switch (action.type) {
     case 'SET_VISIBILITY_FILTER':
       return action.filter;
     default:
@@ -62,11 +57,52 @@ const visibilityFilter = ( state = 'SHOW_ALL', action ) => {
 };
 
 
-// * test reducer
+// * 1, how to combine multiple reducers
+// const todoApp = (state={}, action)=> {
+//   return {
+//     todos: todos(state.todos, action),
+//     visibilityFilter: visibilityFilter(state.visibilityFilter, action)
+//   };
+// };
+
+// * 3, implement combinedReducers from scratch
+const combineReducers = reducers => {
+  return (state = {}, action) => {
+    return Object.keys(reducers).reduce(
+      (nextState, key) => {
+        nextState[key] = reducers[key](
+          state[key],
+          action
+        );
+        return nextState;
+      },
+      {}
+    );
+  };
+};
+
+// * 2, combined reducer from library
+const todoApp = combineReducers({
+  // todos: todos,
+  todos,
+  // visibilityFilter: visibilityFilter
+  visibilityFilter
+});
+
+
+
+
+// * create store using combined reducer: todoApp
+const store = createStore(todoApp);
+
+
+
+
+// * test reducer ================================
 const testToggleTodo = () => {
   const stateBefore = [
     {
-      id: 0, 
+      id: 0,
       text: 'Learn Redux',
       completed: false,
     },
@@ -77,7 +113,7 @@ const testToggleTodo = () => {
     }
   ];
 
-  const action ={
+  const action = {
     type: 'TOGGLE_TODO',
     id: 1
   }
@@ -103,12 +139,52 @@ const testToggleTodo = () => {
 
 testToggleTodo();
 
-const store = createStore(todoApp);
+// * end of test ==================================
 
-ReactDOM.render(
-  <React.StrictMode>
-    <div>To Do List</div>
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+let nextTodoId = 0;
+
+class TodoApp extends Component {
+  render() {
+    return (
+      <div>
+        <input  ref={node => {
+          this.input = node;
+        }}
+        />
+        <button onClick={() => {
+          store.dispatch({
+            type: 'ADD_TODO',
+            text: this.input.value,
+            id: nextTodoId++
+          });
+        }}>
+          Add Todo
+        </button>
+        <ul>
+          {this.props.todos.map(todo =>
+            <li key={todo.id}>
+              {todo.text}
+            </li>
+          )}
+        </ul>
+      </div>
+    )
+  };
+}
+
+
+const render = () => {
+  ReactDOM.render(
+    <React.StrictMode>
+      <div>To Do List</div>
+      <TodoApp todos={store.getState().todos} />
+    </React.StrictMode>,
+    document.getElementById('root')
+  );
+}
+
+store.subscribe(render);
+
+render();
+
 
