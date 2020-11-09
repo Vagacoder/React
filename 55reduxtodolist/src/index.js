@@ -56,6 +56,22 @@ const visibilityFilter = (state = 'SHOW_ALL', action) => {
   }
 };
 
+const FilterLink = ({ filter, children })=>{
+  return (
+    <a href='#'
+    onClick={e => {
+      e.preventDefault();
+      store.dispatch({
+        type:'SET_VISIBILITY_FILTER',
+        filter
+      });
+    }}
+    >
+      {children}
+    </a>
+  );
+}
+
 
 // * 1, how to combine multiple reducers
 // const todoApp = (state={}, action)=> {
@@ -162,11 +178,30 @@ class TodoApp extends Component {
         </button>
         <ul>
           {this.props.todos.map(todo =>
-            <li key={todo.id}>
+            <li key={todo.id}
+              onClick={()=>{
+                store.dispatch({
+                  type: 'TOGGLE_TODO',
+                  id: todo.id
+                });
+              }}
+              style={{
+                textDecoration: todo.completed? 'line-through': 'none'
+              }}
+            >
               {todo.text}
             </li>
           )}
         </ul>
+        <p>
+          Show: 
+          {' '}
+          <FilterLink filter='SHOW_ALL'>ALL</FilterLink>
+          {' '}
+          <FilterLink filter='SHOW_ACTIVE'>Active</FilterLink>
+          {' '}
+          <FilterLink filter='SHOW_COMPLETED'>Completed</FilterLink>
+        </p>
       </div>
     )
   };
