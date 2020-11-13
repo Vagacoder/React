@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 // import App from './App';
@@ -158,57 +158,118 @@ let nextTodoId = 0;
 
 
 // * view components ==============================
-const FilterLink = ({ filter, currentFilter, children }) => {
+// const FilterLink = ({ filter, currentFilter, onClick, children }) => {
 
-  if (filter === currentFilter) {
-    return (<span>{children}</span>);
-  }
+//   if (filter === currentFilter) {
+//     return (<span>{children}</span>);
+//   }
+
+//   return (
+//     <a href='#input'
+//       onClick={e => {
+//         e.preventDefault();
+//         onClick(filter);
+//       }}
+//     >
+//       {children}
+//     </a>
+//   );
+// }
+
+const FilterLink = (props)=> {
+
+  const state = store.getState();
+
+  // ? Is this subscriptiob ok?
+  // ? see 22. Extracting Container Components (FilterLink), last section
+  useEffect(()=>{
+    console.log('sub');
+    const unsubsribe = store.subscribe(()=> {})
+    return ()=> {
+      console.log('unsub');
+      unsubsribe();
+    }
+  });
 
   return (
-    <a href='#'
-      onClick={e => {
-        e.preventDefault();
-        store.dispatch({
-          type: 'SET_VISIBILITY_FILTER',
-          filter
-        });
-      }}
+    <Link
+    active={
+      props.filter === state.visibilityFilter
+    }
+    onClick={()=> store.dispatch({
+      type: 'SET_VISIBILITY_FILTER',
+      filter: props.filter
+    })}
     >
-      {children}
-    </a>
+      {props.children}
+    </Link>
   );
 }
 
-const Footer = ({
-  visibilityFilter,
-  onFilterClick
-}) => {
+// const Footer = ({
+//   visibilityFilter,
+//   onFilterClick
+// }) => {
+//   return (
+//     <p>
+//       <FilterLink
+//         filter='SHOW_ALL'
+//         currentFilter={visibilityFilter}
+//         onClick={onFilterClick}
+//       >
+//         All
+//       </FilterLink>
+//       {', '}
+//       <FilterLink
+//         filter='SHOW_ACTIVE'
+//         currentFilter={visibilityFilter}
+//         onClick={onFilterClick}
+//       >
+//         Active
+//       </FilterLink>
+//       {', '}
+//       <FilterLink
+//         filter='SHOW_COMPLETED'
+//         currentFilter={visibilityFilter}
+//         onClick={onFilterClick}
+//       >
+//         Completed
+//       </FilterLink>
+//     </p>
+//   );
+// };
+
+const Footer = ()=>{
   return (
-    <p>
-      <FilterLink
-        filter='SHOW_ALL'
-        currentFilter={visibilityFilter}
-        onClick={onFilterClick}
-      >
-        All
-      </FilterLink>
-      {', '}
-      <FilterLink
-        filter='SHOW_ACTIVE'
-        currentFilter={visibilityFilter}
-        onClick={onFilterClick}
-      >
-        Active
-      </FilterLink>
-      {', '}
-      <FilterLink
-        filter='SHOW_COMPLETED'
-        currentFilter={visibilityFilter}
-        onClick={onFilterClick}
-      >
-        Completed
-      </FilterLink>
-    </p>
+  <p>
+    Show:{' '}
+    <FilterLink filter='SHOW_ALL'>
+      All
+    </FilterLink>
+    {', '}
+    <FilterLink filter='SHOW_ACTIVE'>
+      Active
+    </FilterLink>
+    {', '}
+    <FilterLink filter='SHOW_COMPLETED'>
+      Completed
+    </FilterLink>
+  </p>);
+}
+
+const Link = ({ active, children, onClick})=>{
+  if(active){
+  return <span>{children}</span>
+  }
+
+  return (
+    <a href='#input'
+    onClick={ e => {
+      e.preventDefault();
+      onClick();
+    }}>
+      {children}
+    </a>
   );
 };
 
@@ -247,7 +308,7 @@ const TodoList = ({
 const AddTodo = ({ onAddClick }) => {
   let input;
   return (
-    <div>
+    <div id='input'>
       <input ref={node => {
         input = node;
       }} />
